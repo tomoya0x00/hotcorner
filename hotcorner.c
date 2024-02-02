@@ -23,11 +23,11 @@
 // If the mouse enters this rectangle, activate the hot corner function.
 // There are some hints about changing corners here
 //      https://github.com/taviso/hotcorner/issues/7#issuecomment-269367351
-static const RECT kHotCorner = {
-    .top    = -20,
-    .left   = -20,
-    .right  = +20,
-    .bottom = +20,
+static RECT kHotCorner = {
+    .top    = 0,
+    .left   = 0,
+    .right  = 0,
+    .bottom = 0,
 };
 
 // Input to inject when corner activated (Win+Tab by default).
@@ -135,6 +135,11 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 {
     MSG Msg;
     HHOOK MouseHook;
+    GetWindowRect(GetDesktopWindow(), &kHotCorner);
+    kHotCorner.top = kHotCorner.bottom - 20;
+    kHotCorner.bottom += 20;
+    kHotCorner.left = -20;
+    kHotCorner.right = +20;
 
     if (!(MouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, NULL, 0)))
         return 1;
